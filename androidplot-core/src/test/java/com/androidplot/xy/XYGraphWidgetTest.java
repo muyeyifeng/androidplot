@@ -21,7 +21,6 @@ import android.graphics.*;
 
 import com.androidplot.test.*;
 import com.androidplot.ui.*;
-import com.androidplot.util.DisplayDimensions;
 
 import org.junit.*;
 import org.mockito.*;
@@ -29,12 +28,11 @@ import org.mockito.*;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyDouble;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Matchers.anyFloat;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.anyFloat;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
@@ -202,7 +200,6 @@ public class XYGraphWidgetTest extends AndroidplotTest {
 
     @Test
     public void setLineLabelEdges_setsEdges() {
-
         graphWidget.setLineLabelEdges(XYGraphWidget.Edge.LEFT, XYGraphWidget.Edge.BOTTOM);
         assertTrue(graphWidget.isLineLabelEnabled(XYGraphWidget.Edge.LEFT));
         assertTrue(graphWidget.isLineLabelEnabled(XYGraphWidget.Edge.BOTTOM));
@@ -312,10 +309,10 @@ public class XYGraphWidgetTest extends AndroidplotTest {
 
     private void runDrawGridTest() {
         doNothing().when(graphWidget).
-                drawDomainLine(any(Canvas.class), anyFloat(), any(Number.class), any(Paint.class), anyBoolean());
+                drawDomainLine(any(Canvas.class), anyFloat(), any(Number.class), any(Paint.class), anyBoolean(), anyBoolean());
 
         doNothing().when(graphWidget).
-                drawRangeLine(any(Canvas.class), anyFloat(), any(Number.class), any(Paint.class), anyBoolean());
+                drawRangeLine(any(Canvas.class), anyFloat(), any(Number.class), any(Paint.class), anyBoolean(), anyBoolean());
 
         xyPlot.setRangeBoundaries(0, 100, BoundaryMode.FIXED);
         xyPlot.setDomainBoundaries(0, 100, BoundaryMode.FIXED);
@@ -324,9 +321,9 @@ public class XYGraphWidgetTest extends AndroidplotTest {
 
         // expecting a 100x100 grid to be drawn:
         verify(graphWidget, times(100))
-                .drawDomainLine(eq(canvas), anyFloat(), anyDouble(), any(Paint.class), eq(false));
+                .drawDomainLine(eq(canvas), anyFloat(), anyDouble(), any(Paint.class), eq(false), anyBoolean());
 
         verify(graphWidget, times(100))
-                .drawRangeLine(eq(canvas), anyFloat(), anyDouble(), any(Paint.class), eq(false));
+                .drawRangeLine(eq(canvas), anyFloat(), anyDouble(), any(Paint.class), eq(false), anyBoolean());
     }
 }
