@@ -2,6 +2,10 @@
 For details on what to expect in general when updating to a new version of Androiplot, check out the
 [versioning doc](versioning.md).
 
+# 1.5.11
+* Update project to latest gradle / build tools
+* Fix issue with jetifier flagging an outdated dependency
+
 # 1.5.10
 * Update project to use latest gradle / build tools
 * (#114) fix `setLinesPerRangeLabel` & `setLinesPerDomainLabel`
