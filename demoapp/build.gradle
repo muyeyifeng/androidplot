@@ -78,6 +78,7 @@ android {
     lint {
         abortOnError false
     }
+    namespace 'com.androidplot.demos'
 
 }
 
