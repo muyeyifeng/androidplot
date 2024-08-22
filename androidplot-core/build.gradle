@@ -31,13 +31,14 @@ class AttrMarkdown extends DefaultTask {
         def input = project.file(inFile)
 
         def output = project.file(outFile)
-        if(output.exists()) {
+        if (output.exists()) {
             output.delete()
         }
         output.parentFile.mkdirs()
 
-        input.text.findAll(/<!--\n?([\s\S]*?)\n?-->/) { match, g1 -> g1
-            if(!g1.startsWith("NODOC")) {
+        input.text.findAll(/<!--\n?([\s\S]*?)\n?-->/) { match, g1 ->
+            g1
+            if (!g1.startsWith("NODOC")) {
                 output.append(g1)
                 output.append "\n\n"
             }
@@ -53,7 +54,7 @@ class AttrMarkdown extends DefaultTask {
  * The generated doc will appear in / replace androidplot/docs/attrs.md
  */
 task generateAttrsMarkdown(type: AttrMarkdown) {
-    inFile = { "src/main/res/values/attrs.xml"}
+    inFile = { "src/main/res/values/attrs.xml" }
     outFile = { "../docs/attrs.md" }
 }
 
@@ -84,6 +85,13 @@ android {
         abortOnError false
     }
     namespace 'com.androidplot'
+
+    publishing {
+        singleVariant("release") {
+            //withSourcesJar()
+            //withJavadocJar()
+        }
+    }
 
 }
 
@@ -121,65 +129,63 @@ dependencies {
 //    from javadoc.destinationDir
 //}
 
-task sourcesJar(type: Jar) {
-    archiveClassifier.set('sources')
-    from android.sourceSets.main.java.srcDirs
-}
+//task sourcesJar(type: Jar) {
+//    archiveClassifier.set('sources')
+//    from android.sourceSets.main.java.srcDirs
+//}
 
 // TODO: get javadoc working again at some point
 //javadoc {
 //    options.overview = "src/main/java/overview.html"
 //}
 
-afterEvaluate {
-    publishing {
-        repositories {
-            maven {
-                name = "Maven Central"
-                url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-                credentials {
-                    username = System.getenv("OSSRH_ACTOR")
-                    password = System.getenv("OSSRH_TOKEN")
-                }
+publishing {
+    repositories {
+        maven {
+            name = "MavenCentral"
+            url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = System.getenv("OSSRH_ACTOR")
+                password = System.getenv("OSSRH_TOKEN")
             }
         }
+    }
 
-        publications {
+    publications {
 
-            publications.withType(MavenPublication) {
+        publications.withType(MavenPublication) {
 //            release(MavenPublication) {
 //
 //                from components.release
 
-                // You can then customize attributes of the publication as shown below.
-                groupId = 'com.androidplot'
-                artifactId = 'androidplot-core'
-                version = theVersionName
+            // You can then customize attributes of the publication as shown below.
+            groupId = 'com.androidplot'
+            artifactId = 'androidplot-core'
+            version = theVersionName
 
-                pom {
-                    packaging 'aar'
-                    name = 'Androidplot'
-                    description = "Configure any object from XML."
+            pom {
+                packaging 'aar'
+                name = 'Androidplot'
+                description = "Configure any object from XML."
+                url = gitUrl
+                licenses {
+                    license {
+                        name = 'The Apache Software License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'halfhp'
+                        name = 'Nick Fellows'
+                        email = 'halfhp@gmail.com'
+                    }
+                }
+                scm {
+                    connection = gitUrl
+                    developerConnection = gitUrl
                     url = gitUrl
-                    licenses {
-                        license {
-                            name = 'The Apache Software License, Version 2.0'
-                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        }
-                    }
-                    developers {
-                        developer {
-                            id = 'halfhp'
-                            name = 'Nick Fellows'
-                            email = 'halfhp@gmail.com'
-                        }
-                    }
-                    scm {
-                        connection = gitUrl
-                        developerConnection = gitUrl
-                        url = gitUrl
 
-                    }
                 }
             }
         }
@@ -190,11 +196,11 @@ signing {
     def signingKey = System.getenv("SIGNING_KEY")
     def signingPassword = System.getenv("SIGNING_PASSWORD")
     useInMemoryPgpKeys(signingKey, signingPassword)
-    sign publishing.publications
+    sign(publishing.publications)
 }
 
-artifacts {
-    // TODO: get javadoc working again at some point
-//    archives javadocJar
-    archives sourcesJar
-}
+//artifacts {
+//    // TODO: get javadoc working again at some point
+////    archives javadocJar
+//    archives sourcesJar
+//}
