@@ -15,8 +15,8 @@
  */
 
 ext {
-    theCompileSdkVersion = 32
-    theTargetSdkVersion = 32
+    theCompileSdkVersion = 34
+    theTargetSdkVersion = 34
     theMinSdkVersion = 5
     theVersionName = '1.5.11'
     theVersionCode = 226
@@ -32,8 +32,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
-        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.5'
+        classpath 'com.android.tools.build:gradle:8.5.2'
+        classpath 'com.mxalbert.gradle:jacoco-android:0.2.0'
     }
 }
 
