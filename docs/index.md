@@ -42,7 +42,9 @@ Source code examples of the various plot types.
 # XML Attributes
 A complete list of XML attributes is [available here](attrs.md).
 # Javadoc
-The latest Javadocs are [available here](https://javadoc.io/doc/com.androidplot/androidplot-core).
+Javadocs for versions through 1.5.7 are [available here](https://javadoc.io/doc/com.androidplot/androidplot-core).  Due to a build issue
+producing Javadocs for the latest releases has been paused.  There have been very
+few changes to the API since 1.5.7 so the Javadocs should still be useful in the mean time.
 
 # Release Notes
 Full release notes are [available here](release_notes.md)

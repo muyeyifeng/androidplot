@@ -27,8 +27,9 @@ jobs:
           echo $ENCODED | base64 -di > "${GITHUB_WORKSPACE}/demoapp/keystore.jks"
           ./gradlew assembleRelease
 
-      - name: Javadoc
-        run: ./gradlew javadoc
+# TODO: get javadoc working again at some point
+#      - name: Javadoc
+#        run: ./gradlew javadoc
 
       - name: Code Coverage
         run: bash <(curl -s https://codecov.io/bash)
