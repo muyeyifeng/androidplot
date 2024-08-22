@@ -88,11 +88,12 @@ android {
 
     publishing {
         singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
             //withSourcesJar()
             //withJavadocJar()
         }
     }
-
 }
 
 group = 'com.androidplot'
@@ -139,53 +140,53 @@ dependencies {
 //    options.overview = "src/main/java/overview.html"
 //}
 
-publishing {
-    repositories {
-        maven {
-            name = "MavenCentral"
-            url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-            credentials {
-                username = System.getenv("OSSRH_ACTOR")
-                password = System.getenv("OSSRH_TOKEN")
+afterEvaluate {
+    publishing {
+        repositories {
+            maven {
+                name = "MavenCentral"
+                url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+                credentials {
+                    username = System.getenv("OSSRH_ACTOR")
+                    password = System.getenv("OSSRH_TOKEN")
+                }
             }
         }
-    }
 
-    publications {
-
-        publications.withType(MavenPublication) {
+        publications {
+            release(MavenPublication) {
 //            release(MavenPublication) {
 //
-//                from components.release
+                from components.release
 
-            // You can then customize attributes of the publication as shown below.
-            groupId = 'com.androidplot'
-            artifactId = 'androidplot-core'
-            version = theVersionName
+                // You can then customize attributes of the publication as shown below.
+                groupId = 'com.androidplot'
+                artifactId = 'androidplot-core'
+                version = theVersionName
 
-            pom {
-                packaging 'aar'
-                name = 'Androidplot'
-                description = "Configure any object from XML."
-                url = gitUrl
-                licenses {
-                    license {
-                        name = 'The Apache Software License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'halfhp'
-                        name = 'Nick Fellows'
-                        email = 'halfhp@gmail.com'
-                    }
-                }
-                scm {
-                    connection = gitUrl
-                    developerConnection = gitUrl
+                pom {
+                    packaging 'aar'
+                    name = 'Androidplot'
+                    description = "Configure any object from XML."
                     url = gitUrl
-
+                    licenses {
+                        license {
+                            name = 'The Apache Software License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'halfhp'
+                            name = 'Nick Fellows'
+                            email = 'halfhp@gmail.com'
+                        }
+                    }
+                    scm {
+                        connection = gitUrl
+                        developerConnection = gitUrl
+                        url = gitUrl
+                    }
                 }
             }
         }
