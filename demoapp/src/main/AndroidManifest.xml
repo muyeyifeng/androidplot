@@ -15,7 +15,7 @@
   ~    limitations under the License.
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.androidplot.demos">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Used by Crittercism to report crashes -->
     <uses-permission android:name="android.permission.INTERNET"/>

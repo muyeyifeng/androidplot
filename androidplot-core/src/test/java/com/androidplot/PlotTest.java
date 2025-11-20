@@ -34,6 +34,7 @@ import static junit.framework.Assert.assertNotSame;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -44,7 +45,8 @@ public class PlotTest extends AndroidplotTest {
 
     @Test
     public void testInit_withoutAttrs() {
-        Plot plot = mock(Plot.class);
+        //Plot plot = mock(Plot.class);
+        Plot plot = spy(new MockPlot("MockPlot"));
         plot.init(RuntimeEnvironment.application, null, 0);
 
         verify(plot, times(1)).onPreInit();
@@ -53,10 +55,12 @@ public class PlotTest extends AndroidplotTest {
 
     @Test
     public void testInit_withAttrs() {
-        Plot plot = new MockPlot("MockPlot");
+        Plot plot = spy(new MockPlot("MockPlot"));
         AttributeSet attrs = mock(AttributeSet.class);
         plot.init(RuntimeEnvironment.application, attrs, 0);
-        // TODO: verifications
+
+        verify(plot, times(1)).onPreInit();
+        verify(plot, times(1)).onAfterConfig();
     }
 
     @Test
